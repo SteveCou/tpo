@@ -397,15 +397,15 @@ ul.task-list li input[type="checkbox"] {
   }
 
   #map-wrap.compare-count-3 {
-    --detail-panel-width: clamp(500px, 38vw, 620px);
+    --detail-panel-width: clamp(440px, 36vw, 600px);
   }
 
   #map-wrap.compare-count-4 {
-    --detail-panel-width: clamp(580px, 44vw, 740px);
+    --detail-panel-width: clamp(460px, 40vw, 660px);
   }
 
   #map-wrap.compare-count-5 {
-    --detail-panel-width: clamp(660px, 50vw, 860px);
+    --detail-panel-width: clamp(480px, 42vw, 700px);
   }
 
   #map-stage {
@@ -517,14 +517,18 @@ ul.task-list li input[type="checkbox"] {
     top: 12px;
     left: clamp(8px, 1.2vw, 18px);
     right: clamp(8px, 1.2vw, 18px);
+    max-height: calc(100% - 24px);
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-content: flex-start;
-    justify-content: flex-end;
+    align-items: flex-start;
+    justify-content: flex-start;
     gap: 10px;
-    overflow: visible;
-    padding: 0;
-    pointer-events: none;
+    overflow: auto;
+    padding: 0 0 8px;
+    pointer-events: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable both-edges;
   }
 
   #area-popups:empty {
@@ -588,7 +592,7 @@ ul.task-list li input[type="checkbox"] {
 
   .dimension-row {
     display: grid;
-    grid-template-columns: minmax(116px, 0.9fr) minmax(0, 1fr);
+    grid-template-columns: minmax(82px, 0.42fr) minmax(0, 1fr);
     align-items: center;
     gap: 8px;
   }
@@ -772,7 +776,7 @@ ul.task-list li input[type="checkbox"] {
 
   .score-level-row {
     display: grid;
-    grid-template-columns: minmax(116px, 0.9fr) minmax(0, 1fr);
+    grid-template-columns: minmax(82px, 0.42fr) minmax(0, 1fr);
     align-items: center;
     gap: 8px;
     margin-top: auto;
@@ -827,7 +831,7 @@ ul.task-list li input[type="checkbox"] {
   }
 
   .filter-button {
-    padding: 0 5px;
+    padding: 0 6px;
     font-size: 13px;
     white-space: nowrap;
   }
@@ -1710,6 +1714,34 @@ ul.task-list li input[type="checkbox"] {
     background: #22c55e;
   }
 
+  @media (max-width: 1120px) {
+    #top-panel {
+      grid-template-columns: 1fr !important;
+    }
+
+    .legend-panel {
+      grid-template-columns: minmax(0, 1fr) minmax(148px, 176px);
+    }
+
+    #map-wrap.compare-count-3,
+    #map-wrap.compare-count-4,
+    #map-wrap.compare-count-5 {
+      grid-template-columns: 1fr !important;
+    }
+
+    #map-wrap.compare-count-3 #selection-data-panel,
+    #map-wrap.compare-count-4 #selection-data-panel,
+    #map-wrap.compare-count-5 #selection-data-panel {
+      position: relative;
+      top: auto;
+      grid-column: 1 !important;
+      grid-row: 2 !important;
+      height: min(720px, 70vh);
+      max-height: min(720px, 70vh);
+      overflow-y: auto;
+    }
+  }
+
   @media (max-width: 760px) {
     #dashboard {
       height: auto;
@@ -1737,6 +1769,11 @@ ul.task-list li input[type="checkbox"] {
 
     .dimension-row {
       grid-template-columns: 1fr;
+    }
+
+    .score-level-row {
+      grid-template-columns: 1fr;
+      gap: 6px;
     }
 
     .filter-grid {
