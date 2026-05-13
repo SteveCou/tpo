@@ -1,0 +1,9 @@
+.DS_Store
+.quarto/
+_site/
+index.knit.md
+index_files 2/
+index_files 3/
+
+/.quarto/
+**/*.quarto_ipynb

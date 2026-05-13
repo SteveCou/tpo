@@ -1,0 +1,7 @@
+country,region,party,party_abbr,physical_level,formalisation_level,incorporation_level,digital_level,logo_file,notes
+Netherlands,Netherlands,Example Dutch Party,NLD-1,low,medium,low,high,,Placeholder row; replace with research data.
+Belgium,Flanders,Example Flemish Party,FL-1,medium,low,medium,low,,Placeholder row; replace with research data.
+Belgium,Wallonia,Example Walloon Party,WA-1,high,high,medium,medium,,Placeholder row; replace with research data.
+Switzerland,Switzerland,Example Swiss Party,CH-1,medium,high,high,medium,,Placeholder row; replace with research data.
+Austria,Austria,Ignored Example,AT-1,high,high,high,high,,Demonstrates automatic exclusion.
+Germany,Germany,Ignored Example,DE-1,low,low,low,low,,Demonstrates automatic exclusion.

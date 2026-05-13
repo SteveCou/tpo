@@ -1,0 +1,30 @@
+project:
+  type: website
+  output-dir: docs
+  resources:
+    - www/geodata/*.geojson
+    - www/flags/*.svg
+    - logos/*.png
+    - logos/*.svg
+    - logos/*.jpg
+    - logos/*.jpeg
+    - logos/*.webp
+    - logos/thumbs/*.png
+    - logos/logo_manifest.csv
+
+website:
+  title: "Transnational Party Strategies"
+  navbar: false
+
+format:
+  html:
+    theme: cosmo
+    toc: false
+    page-layout: full
+    embed-resources: false
+    self-contained: false
+
+execute:
+  echo: false
+  warning: false
+  message: false
