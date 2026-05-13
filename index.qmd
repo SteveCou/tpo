@@ -915,7 +915,7 @@ map_svg <- make_static_map_svg()
     right: clamp(8px, 1.2vw, 18px);
     max-height: calc(100% - 24px);
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-content: flex-start;
     align-items: flex-start;
     justify-content: flex-start;
@@ -1396,7 +1396,7 @@ map_svg <- make_static_map_svg()
   .area-party-popup {
     flex: 0 0 auto;
     width: max-content;
-    max-width: calc(100vw - 56px);
+    max-width: 100%;
     min-width: 0;
     padding: 10px;
     border: 1px solid rgba(120, 132, 155, 0.38);
@@ -1443,7 +1443,9 @@ map_svg <- make_static_map_svg()
     align-items: stretch;
     gap: 7px;
     max-height: none;
-    overflow: visible;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: visible;
     padding: 2px;
   }
 
@@ -2588,9 +2590,20 @@ map_svg <- make_static_map_svg()
     `;
   }
 
+  function popupColumnCount(partyCount) {
+    const host = document.getElementById("area-popups");
+    const hostWidth = Math.max(320, host ? host.clientWidth : window.innerWidth);
+    const cardWidth = 86;
+    const cardGap = 7;
+    const popupPadding = 24;
+    const maxColumns = Math.max(1, Math.floor((hostWidth - popupPadding + cardGap) / (cardWidth + cardGap)));
+    const desiredRows = hostWidth < 760 ? 4 : 3;
+    return Math.max(1, Math.min(maxColumns, Math.ceil(partyCount / desiredRows)));
+  }
+
   function areaPopupHtml(areaId) {
     const areaParties = partiesForArea(areaId);
-    const partyColumns = Math.max(1, Math.ceil(areaParties.length / 2));
+    const partyColumns = popupColumnCount(areaParties.length);
     const activeLabel = activeFilter === "all"
       ? dimensionLabels[activeDimension]
       : `${dimensionLabels[activeDimension]} · ${activeFilter}${activeDimension === "all" ? " in any dimension" : ""}`;
@@ -3250,6 +3263,15 @@ map_svg <- make_static_map_svg()
 
   document.querySelectorAll(".info-button").forEach(button => {
     button.addEventListener("click", () => openInfoWindow(button.dataset.infoWindow));
+  });
+
+  let popupResizeTimer = null;
+  window.addEventListener("resize", () => {
+    window.clearTimeout(popupResizeTimer);
+    popupResizeTimer = window.setTimeout(() => {
+      if (selectedAreaIds.size > 0) renderAreaPopups();
+      resizeDetailPanel();
+    }, 120);
   });
 
   document.querySelectorAll("[data-info-close]").forEach(button => {
