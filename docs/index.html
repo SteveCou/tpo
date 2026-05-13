@@ -517,6 +517,7 @@ ul.task-list li input[type="checkbox"] {
     top: 12px;
     left: clamp(8px, 1.2vw, 18px);
     right: clamp(8px, 1.2vw, 18px);
+    height: calc(100% - 24px);
     max-height: calc(100% - 24px);
     display: grid;
     grid-template-columns: repeat(var(--popup-columns, 1), max-content);
@@ -527,10 +528,11 @@ ul.task-list li input[type="checkbox"] {
     justify-content: start;
     gap: 10px;
     overflow: auto;
-    padding: 0 0 8px;
+    padding: 0 10px 10px 0;
     pointer-events: auto;
     overscroll-behavior: contain;
     scrollbar-gutter: stable both-edges;
+    -webkit-overflow-scrolling: touch;
   }
 
   #area-popups:empty {
@@ -1013,7 +1015,7 @@ ul.task-list li input[type="checkbox"] {
   .area-party-popup {
     flex: 0 0 auto;
     width: max-content;
-    max-width: 100%;
+    max-width: none;
     min-width: 0;
     padding: 10px;
     border: 1px solid rgba(120, 132, 155, 0.38);
@@ -1062,9 +1064,8 @@ ul.task-list li input[type="checkbox"] {
     align-items: stretch;
     gap: 7px;
     max-height: none;
-    max-width: 100%;
-    overflow-x: auto;
-    overflow-y: visible;
+    max-width: none;
+    overflow: visible;
     padding: 2px;
   }
 
@@ -2247,14 +2248,7 @@ ul.task-list li input[type="checkbox"] {
   }
 
   function popupColumnCount(partyCount) {
-    const host = document.getElementById("area-popups");
-    const hostWidth = Math.max(320, host ? host.clientWidth : window.innerWidth);
-    const cardWidth = 86;
-    const cardGap = 7;
-    const popupPadding = 24;
-    const maxColumns = Math.max(1, Math.floor((hostWidth - popupPadding + cardGap) / (cardWidth + cardGap)));
-    const desiredRows = 2;
-    return Math.max(1, Math.min(maxColumns, Math.ceil(partyCount / desiredRows)));
+    return Math.max(1, Math.ceil(partyCount / 2));
   }
 
   function areaPopupHtml(areaId) {
