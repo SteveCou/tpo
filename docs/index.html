@@ -520,6 +520,8 @@ ul.task-list li input[type="checkbox"] {
     max-height: calc(100% - 24px);
     display: grid;
     grid-template-columns: repeat(var(--popup-columns, 1), max-content);
+    grid-template-rows: repeat(var(--popup-rows, 1), max-content);
+    grid-auto-flow: column;
     align-content: start;
     align-items: start;
     justify-content: start;
@@ -536,6 +538,11 @@ ul.task-list li input[type="checkbox"] {
   }
 
   #area-popups.popup-count-2,
+  #area-popups.popup-count-3,
+  #area-popups.popup-count-4 {
+    --popup-rows: 2;
+  }
+
   #area-popups.popup-count-3,
   #area-popups.popup-count-4 {
     --popup-columns: 2;
@@ -1050,6 +1057,8 @@ ul.task-list li input[type="checkbox"] {
   .party-logo-grid {
     display: grid;
     grid-template-columns: repeat(var(--party-columns, 3), 86px);
+    grid-template-rows: repeat(2, auto);
+    grid-auto-flow: column;
     align-items: stretch;
     gap: 7px;
     max-height: none;
@@ -2244,7 +2253,7 @@ ul.task-list li input[type="checkbox"] {
     const cardGap = 7;
     const popupPadding = 24;
     const maxColumns = Math.max(1, Math.floor((hostWidth - popupPadding + cardGap) / (cardWidth + cardGap)));
-    const desiredRows = hostWidth < 760 ? 4 : 3;
+    const desiredRows = 2;
     return Math.max(1, Math.min(maxColumns, Math.ceil(partyCount / desiredRows)));
   }
 
