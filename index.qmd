@@ -928,13 +928,9 @@ map_svg <- make_static_map_svg()
     right: clamp(8px, 1.2vw, 18px);
     height: calc(100% - 24px);
     max-height: calc(100% - 24px);
-    display: grid;
-    grid-template-columns: repeat(var(--popup-columns, 1), max-content);
-    grid-template-rows: repeat(var(--popup-rows, 1), max-content);
-    grid-auto-flow: row;
-    align-content: start;
-    align-items: start;
-    justify-content: start;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     gap: 10px;
     overflow: auto;
     padding: 0 10px 10px 0;
@@ -948,35 +944,12 @@ map_svg <- make_static_map_svg()
     display: none;
   }
 
-  #area-popups.popup-count-2,
-  #area-popups.popup-count-3,
-  #area-popups.popup-count-4 {
-    --popup-rows: 2;
-  }
-
-  #area-popups.popup-count-3,
-  #area-popups.popup-count-4 {
-    --popup-columns: 2;
-  }
-
-  #area-popups.popup-count-4 [data-area-popup="netherlands"] {
-    grid-column: 1;
-    grid-row: 1;
-  }
-
-  #area-popups.popup-count-4 [data-area-popup="flanders"] {
-    grid-column: 2;
-    grid-row: 1;
-  }
-
-  #area-popups.popup-count-4 [data-area-popup="wallonia"] {
-    grid-column: 1;
-    grid-row: 2;
-  }
-
-  #area-popups.popup-count-4 [data-area-popup="switzerland"] {
-    grid-column: 2;
-    grid-row: 2;
+  .popup-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    width: max-content;
+    max-width: none;
   }
 
   .legend-panel {
@@ -3115,10 +3088,14 @@ map_svg <- make_static_map_svg()
   function renderAreaPopups() {
     const host = document.getElementById("area-popups");
     const selected = areaOrder.filter(areaId => selectedAreaIds.has(areaId));
-    host.classList.remove("popup-count-1", "popup-count-2", "popup-count-3", "popup-count-4");
-    if (selected.length > 0) host.classList.add(`popup-count-${Math.min(selected.length, 4)}`);
-    host.innerHTML = selected
-      .map(areaPopupHtml)
+    const rows = selected.length <= 1
+      ? [selected]
+      : selected.length === 2
+        ? [[selected[0]], [selected[1]]]
+        : [selected.slice(0, 2), selected.slice(2, 4)];
+    host.innerHTML = rows
+      .filter(row => row.length > 0)
+      .map(row => `<div class="popup-row">${row.map(areaPopupHtml).join("")}</div>`)
       .join("");
     bindPopupLogoClicks();
   }
