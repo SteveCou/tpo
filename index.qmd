@@ -565,6 +565,10 @@ map_svg <- make_static_map_svg()
   }
 
   .info-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     min-height: 34px;
     padding: 0 8px;
     border: 1px solid #cbd5e1;
@@ -576,6 +580,15 @@ map_svg <- make_static_map_svg()
     line-height: 1.15;
     cursor: pointer;
     transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
+  }
+
+  .author-logo {
+    display: inline-block;
+    height: 1.15em;
+    width: auto;
+    max-width: 118px;
+    object-fit: contain;
+    flex: 0 1 auto;
   }
 
   .info-button:hover {
@@ -918,7 +931,7 @@ map_svg <- make_static_map_svg()
     display: grid;
     grid-template-columns: repeat(var(--popup-columns, 1), max-content);
     grid-template-rows: repeat(var(--popup-rows, 1), max-content);
-    grid-auto-flow: column;
+    grid-auto-flow: row;
     align-content: start;
     align-items: start;
     justify-content: start;
@@ -2227,7 +2240,7 @@ map_svg <- make_static_map_svg()
 
 <div id="dashboard">
   <nav id="info-nav" aria-label="Project information links">
-    <button class="info-button" type="button" data-info-window="author">Author details</button>
+    <button class="info-button" type="button" data-info-window="author"><img class="author-logo" src="www/rug_logoen_rood_rgb.png" alt="University of Groningen logo"><span>Adrian Favero</span></button>
     <button class="info-button" type="button" data-info-window="output">Related output</button>
     <button class="info-button" type="button" data-info-window="dataset">Dataset</button>
     <button class="info-button" type="button" data-info-window="acknowledgements">Acknowledgements</button>

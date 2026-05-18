@@ -4,6 +4,7 @@ project:
   resources:
     - www/geodata/*.geojson
     - www/flags/*.svg
+    - www/*.png
     - logos/*.png
     - logos/*.svg
     - logos/*.jpg
