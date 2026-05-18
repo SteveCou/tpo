@@ -539,7 +539,7 @@ ul.task-list li input[type="checkbox"] {
     overflow: auto;
     padding: 0 10px 10px 0;
     pointer-events: auto;
-    overscroll-behavior: contain;
+    overscroll-behavior: auto;
     scrollbar-gutter: stable both-edges;
     -webkit-overflow-scrolling: touch;
   }
@@ -2821,26 +2821,19 @@ ul.task-list li input[type="checkbox"] {
     }, { passive: false });
   }
 
-  function enableMapPopupWheelScroll() {
+  function enableMapPageWheelScroll() {
     const stage = document.getElementById("map-stage");
     const popups = document.getElementById("area-popups");
     if (!stage || !popups) return;
     stage.addEventListener("wheel", event => {
       if (selectedAreaIds.size === 0 || !popups.innerHTML.trim()) return;
-      const maxY = popups.scrollHeight - popups.clientHeight;
-      const maxX = popups.scrollWidth - popups.clientWidth;
-      if (maxY <= 0 && maxX <= 0) return;
       event.preventDefault();
       event.stopPropagation();
-      if (Math.abs(event.deltaX) > Math.abs(event.deltaY) && maxX > 0) {
-        popups.scrollLeft = Math.max(0, Math.min(maxX, popups.scrollLeft + event.deltaX));
-        return;
-      }
-      if (maxY > 0) {
-        popups.scrollTop = Math.max(0, Math.min(maxY, popups.scrollTop + event.deltaY));
-      } else if (maxX > 0) {
-        popups.scrollLeft = Math.max(0, Math.min(maxX, popups.scrollLeft + event.deltaY));
-      }
+      window.scrollBy({
+        top: event.deltaY,
+        left: event.deltaX,
+        behavior: "auto"
+      });
     }, { passive: false });
   }
 
@@ -2970,7 +2963,7 @@ ul.task-list li input[type="checkbox"] {
   document.getElementById("select-all-areas-button").addEventListener("click", selectAllAreas);
   document.getElementById("clear-selection-button").addEventListener("click", clearAllSelections);
   enableDetailPanelWheelScroll();
-  enableMapPopupWheelScroll();
+  enableMapPageWheelScroll();
 </script>
 
 
