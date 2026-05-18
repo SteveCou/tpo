@@ -959,6 +959,26 @@ map_svg <- make_static_map_svg()
     --popup-columns: 2;
   }
 
+  #area-popups.popup-count-4 [data-area-popup="netherlands"] {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  #area-popups.popup-count-4 [data-area-popup="flanders"] {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  #area-popups.popup-count-4 [data-area-popup="wallonia"] {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  #area-popups.popup-count-4 [data-area-popup="switzerland"] {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
   .legend-panel {
     position: relative;
     z-index: 1900;
@@ -3183,6 +3203,29 @@ map_svg <- make_static_map_svg()
     }, { passive: false });
   }
 
+  function enableMapPopupWheelScroll() {
+    const stage = document.getElementById("map-stage");
+    const popups = document.getElementById("area-popups");
+    if (!stage || !popups) return;
+    stage.addEventListener("wheel", event => {
+      if (selectedAreaIds.size === 0 || !popups.innerHTML.trim()) return;
+      const maxY = popups.scrollHeight - popups.clientHeight;
+      const maxX = popups.scrollWidth - popups.clientWidth;
+      if (maxY <= 0 && maxX <= 0) return;
+      event.preventDefault();
+      event.stopPropagation();
+      if (Math.abs(event.deltaX) > Math.abs(event.deltaY) && maxX > 0) {
+        popups.scrollLeft = Math.max(0, Math.min(maxX, popups.scrollLeft + event.deltaX));
+        return;
+      }
+      if (maxY > 0) {
+        popups.scrollTop = Math.max(0, Math.min(maxY, popups.scrollTop + event.deltaY));
+      } else if (maxX > 0) {
+        popups.scrollLeft = Math.max(0, Math.min(maxX, popups.scrollLeft + event.deltaY));
+      }
+    }, { passive: false });
+  }
+
   const infoWindows = {
     author: {
       title: "Author details",
@@ -3309,5 +3352,6 @@ map_svg <- make_static_map_svg()
   document.getElementById("select-all-areas-button").addEventListener("click", selectAllAreas);
   document.getElementById("clear-selection-button").addEventListener("click", clearAllSelections);
   enableDetailPanelWheelScroll();
+  enableMapPopupWheelScroll();
 </script>
 ```
