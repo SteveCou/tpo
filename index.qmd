@@ -3188,9 +3188,15 @@ map_svg <- make_static_map_svg()
       if (selectedAreaIds.size === 0 || !popups.innerHTML.trim()) return;
       event.preventDefault();
       event.stopPropagation();
+      const maxX = popups.scrollWidth - popups.clientWidth;
+      const horizontalDelta = event.shiftKey ? event.deltaY : event.deltaX;
+      if (maxX > 0 && Math.abs(horizontalDelta) > Math.abs(event.deltaY) * 0.35) {
+        popups.scrollLeft = Math.max(0, Math.min(maxX, popups.scrollLeft + horizontalDelta));
+        return;
+      }
       window.scrollBy({
         top: event.deltaY,
-        left: event.deltaX,
+        left: 0,
         behavior: "auto"
       });
     }, { passive: false });
