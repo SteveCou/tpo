@@ -3332,3 +3332,4 @@ map_svg <- make_static_map_svg()
   enableMapPageWheelScroll();
 </script>
 ```
+
